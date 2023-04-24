@@ -15,7 +15,7 @@ const App = () => {
       url: '/repos',
       data: {username: term},
       datatype: "json",
-      success: callback(response),
+      success: console.log(data),
       error: (err, errString) => {
         console.log('AJAX POST request error:', errString);
       }
