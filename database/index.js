@@ -34,4 +34,18 @@ let save = (repos) => {
   })
 }
 
+let getRepos = (callback) => {
+  const query = Repo.find();
+  query.sort({forks: 'desc'});
+  query.limit(25).exec((err, result) => {
+    if (err) {
+      console.log('Error executing MongoDB Query:', err)
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
 module.exports.save = save;
+module.exports.getRepos = getRepos;

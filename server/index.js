@@ -1,6 +1,6 @@
 const express = require('express');
 const { getReposByUsername } = require('../helpers/github.js')
-const { save } = require('../database')
+const { save, getRepos } = require('../database')
 let app = express();
 
 // TODO - your code here!
@@ -30,7 +30,6 @@ app.post('/repos', function (req, res) {
           watchers: element.watchers_count
         }
       });
-      // console.log('Data from post request', githubData);
       save(githubData);
     })
     .then(() => {
@@ -46,6 +45,13 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  getRepos((err, results) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.status(200).json(results);
+    }
+  });
 });
 
 let port = 1128;
