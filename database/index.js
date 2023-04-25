@@ -22,7 +22,6 @@ let save = (repos) => {
   // the MongoDB
   repos.forEach((element, index, array) => {
     let repo = new Repo(element);
-    console.log('*****New Repo: ', repo)
     repo.save()
       .catch((err) => {
         if (err.code === 11000) {
