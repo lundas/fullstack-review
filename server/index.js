@@ -17,7 +17,7 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   getReposByUsername(req.body.username)
     .then((response) => {
-      const githubData = response.map((element, index, array) => {
+      const githubData = response.data.map((element, index, array) => {
         return {
           repoId: element.id,
           repoName: element.full_name,
@@ -26,13 +26,16 @@ app.post('/repos', function (req, res) {
           repoURL: element.html_url,
           description: element.description,
           forks: element.forks_count,
-          stars: element.stars_count,
+          stars: element.stargazers_count,
           watchers: element.watchers_count
         }
       });
+      // console.log('Data from post request', githubData);
       save(githubData);
     })
-    .then(res.sendStatus(201))
+    .then(() => {
+      res.sendStatus(201)
+    })
     .catch((err) => {
       res.sendStatus(400);
       console.log('app.post error: ', err);

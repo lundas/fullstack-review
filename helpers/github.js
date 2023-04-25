@@ -7,15 +7,16 @@ let getReposByUsername = (username) => {
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
   let options = {
-    method: 'get',
-    url: `https://api.github.com/users/${username}/repos`,
+    baseURL: 'https://api.github.com/',
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
     }
   };
 
-  return axios(options);
+  const githubClient = axios.create(options);
+
+  return githubClient.get(`users/${username}/repos`);
 }
 
 module.exports.getReposByUsername = getReposByUsername;

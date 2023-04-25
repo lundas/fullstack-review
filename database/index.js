@@ -22,13 +22,15 @@ let save = (repos) => {
   // the MongoDB
   repos.forEach((element, index, array) => {
     let repo = new Repo(element);
-    repo.save(function (err, repo) {
-      if (err) {
-        console.log(`Error saving ${repo.repoName}:`, err);
-      } else {
-        console.log(`Successfully saved ${repo.repoName}`);
-      }
-    })
+    console.log('*****New Repo: ', repo)
+    repo.save()
+      .catch((err) => {
+        if (err.code === 11000) {
+          console.log(`RepoId ${err.keyValue.repoId} already exists in database`);
+        } else {
+          console.log('MongoDB error on save: ', err);
+        }
+      })
   })
 }
 
