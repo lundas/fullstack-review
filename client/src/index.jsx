@@ -12,10 +12,13 @@ const App = () => {
     console.log(`${term} was searched`);
     $.ajax({
       method: 'POST',
-      url: '/repos',
-      data: {username: term},
-      datatype: "json",
-      success: console.log(data),
+      url: 'http://localhost:1128/repos',
+      contentType: 'application/json',
+      data: JSON.stringify({ username: term }),
+      datatype: 'json',
+      success: (response) => {
+        console.log('Received response status: ', response);
+      },
       error: (err, errString) => {
         console.log('AJAX POST request error:', errString);
       }
